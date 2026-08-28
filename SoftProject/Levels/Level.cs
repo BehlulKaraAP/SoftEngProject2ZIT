@@ -14,7 +14,6 @@ namespace SoftProject.Levels
     {
         private TiledMap map;
         private Texture2D tileSetTexture;
-        private Dictionary<int, TiledTileset> tilesets;
         private Texture2D debugTexture;
 
         public Level(string mapPath, string textureName, ContentManager content, GraphicsDevice graphicsdevice)
