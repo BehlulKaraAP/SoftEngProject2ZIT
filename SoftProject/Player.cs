@@ -1,65 +1,81 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.Direct2D1.Effects;
 using SharpDX.MediaFoundation;
 using SoftProject.Animation;
 using SoftProject.Input;
 using SoftProject.Interfaces;
+using SoftProject.Movement;
+using SoftProject.PlayerState;
+using SoftProject.PlayerStates;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 
 namespace SoftProject
 {
     public class Player : IGameObject
     {
-        Texture2D playerTexture;
-        Animations animatie;
         private Vector2 positie;
         private Vector2 snelheid;
+        private bool facingLeft = false;
+        IPlayerState currentState;
+        public SpriteAnimator CurrentAnimator { get; private set; }
+        private Dictionary<string, SpriteAnimator> _animators = new Dictionary<string, SpriteAnimator>();
 
-        IInputReader inputReader;
-        
-        public Player(Texture2D texture, IInputReader reader)
+        public IInputReader InputReader { get; set; }
+        public Player(IInputReader reader)
         {
-            playerTexture = texture;
-            animatie = new Animations();
-            animatie.AddFrame(new AnimationFrame(new Rectangle(0, 0, 280, 385)));
-            animatie.AddFrame(new AnimationFrame(new Rectangle(280, 0, 280, 385)));
-            animatie.AddFrame(new AnimationFrame(new Rectangle(560, 0, 280, 385)));
-            animatie.AddFrame(new AnimationFrame(new Rectangle(840, 0, 280, 385)));
-            animatie.AddFrame(new AnimationFrame(new Rectangle(1120, 0, 280, 385)));
             positie = new Vector2(10, 10);
             snelheid = new Vector2(10, 1);
-            this.inputReader = reader;
-
+            this.InputReader = reader;
         }
+        public void LoadContent(ContentManager content)
+        {
+            _animators.Add("Idle", new SpriteAnimator(content.Load<Texture2D>("Idle"), 128, 64));
+            _animators.Add("Run", new SpriteAnimator(content.Load<Texture2D>("Run"), 128, 64));
+            _animators.Add("Attack", new SpriteAnimator(content.Load<Texture2D>("Attacks"), 128, 64));
 
-        public void Update()
+            ChangeState(new IdleState());
+        }
+        public void PlayAnimation(string animationName)
+        {
+            CurrentAnimator = _animators[animationName];
+        }
+        public void ChangeState(IPlayerState newState)
+        {
+            currentState = newState;
+            currentState.Enter(this);
+        }
+        public void Update(GameTime gameTime)
         {
             Move();
-            animatie.Update();
+            currentState.Update(this);
+            CurrentAnimator?.Update();
         }
 
         private void Move()
         {
-            var direction = inputReader.ReadInput();
+            var direction = InputReader.ReadInput();
+
+            if(direction.X < 0)
+            {
+                facingLeft = true;
+            }
+            else if (direction.X > 0)
+            {
+                facingLeft = false;
+            }
+
             direction *= 4;
             positie += direction;
         }
 
-        //private Vector2 Limit(Vector2 v, float max)
-        //{
-        //    if (v.Length() > max)
-        //    {
-        //        var ratio = max / v.Length();
-        //        v.X *= ratio;
-        //        v.Y *= ratio;
-        //    }
-        //    return v;
-        //}
-
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(playerTexture, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+            CurrentAnimator?.Draw(spriteBatch, positie, facingLeft);
         }
     }
 }

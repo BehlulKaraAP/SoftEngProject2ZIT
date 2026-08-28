@@ -22,5 +22,6 @@ namespace SoftProject.Input
 
             return direction;
         }
+
     }
 }
