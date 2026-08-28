@@ -23,10 +23,15 @@ namespace SoftProject.PlayerStates
                 player.ChangeState(new RunState());
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
                 player.ChangeState(new AttackState());
                 return; 
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && player.IsGrounded)
+            {
+                player.ChangeState(new JumpState());
+                return;
             }
         }
     }
