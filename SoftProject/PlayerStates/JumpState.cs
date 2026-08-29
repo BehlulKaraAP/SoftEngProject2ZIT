@@ -1,9 +1,4 @@
 ﻿using SoftProject.PlayerState;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoftProject.PlayerStates
 {
@@ -13,15 +8,15 @@ namespace SoftProject.PlayerStates
         {
             player.PlayAnimation("Jump");
 
-            player.Velocity.Y = player.JumpForce;
-            player.IsGrounded = false;
+            player.Physics.Velocity.Y = player.Physics.JumpForce;
+            player.Physics.IsGrounded = false;
         }
 
         public void Update(Player player)
         {
-            if (player.IsGrounded)
+            if (player.Physics.IsGrounded)
             {
-                if (player.Velocity.X != 0)
+                if (player.Physics.Velocity.X != 0)
                 {
                     player.ChangeState(new RunState());
                 }

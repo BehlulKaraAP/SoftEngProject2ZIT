@@ -1,18 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct2D1.Effects;
-using SharpDX.MediaFoundation;
 using SoftProject.Animation;
 using SoftProject.Input;
 using SoftProject.Interfaces;
-using SoftProject.Movement;
+using SoftProject.Physics;
 using SoftProject.PlayerState;
 using SoftProject.PlayerStates;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 
 namespace SoftProject
 {
@@ -25,14 +20,12 @@ namespace SoftProject
         public SpriteAnimator CurrentAnimator { get; private set; }
         private Dictionary<string, SpriteAnimator> _animators = new Dictionary<string, SpriteAnimator>();
 
-        public Vector2 Velocity;
-        public float Gravity = 0.5f;
-        public float JumpForce = -10f;
-        public bool IsGrounded = false;
+        public PhysicsComponent Physics { get; set; }
 
         public IInputReader InputReader { get; set; }
         public Player(IInputReader reader)
         {
+            Physics = new PhysicsComponent();
             positie = new Vector2(10, 10);
             snelheid = new Vector2(10, 1);
             this.InputReader = reader;
@@ -56,30 +49,10 @@ namespace SoftProject
             currentState.Enter(this);
         }
 
-        public void ApplyPhysics()
-        {
-            if (!IsGrounded)
-            {
-                Velocity.Y += Gravity;
-            }
-
-            positie += Velocity;
-
-            if (positie.Y >= 370)
-            {
-                positie.Y = 370;
-                Velocity.Y = 0;
-                IsGrounded = true;
-            }
-            else
-            {
-                IsGrounded = false;
-            }
-        }
         public void Update(GameTime gameTime)
         {
             Move();
-            ApplyPhysics();
+            Physics.ApplyPhysics(ref positie);
 
             currentState.Update(this);
             CurrentAnimator?.Update();
@@ -98,9 +71,7 @@ namespace SoftProject
                 facingLeft = false;
             }
 
-            //direction *= 4;
-            //positie += direction;
-            Velocity.X = direction.X * 4;
+            Physics.Velocity.X = direction.X * 4;
         }
 
         public void Draw(SpriteBatch spriteBatch)
