@@ -40,14 +40,18 @@ namespace SoftProject
 
             levelManager = new LevelManager(this.Content, GraphicsDevice);
             levelManager.LoadLevel(1);
+            player.Level = levelManager.currentLevel;
+
+
         }
 
-        
+
 
         private void InitializeGameObject()
         {
-            player = new Player(new KeyboardReader());
+            player = new Player(new KeyboardReader(), GraphicsDevice);
             player.LoadContent(this.Content);
+
         }
 
         protected override void Update(GameTime gameTime)

@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TiledCS;
 
 namespace SoftProject.Levels
@@ -15,6 +11,7 @@ namespace SoftProject.Levels
         private TiledMap map;
         private Texture2D tileSetTexture;
         private Texture2D debugTexture;
+        public List<Rectangle> CollisionRectangles { get; private set; } 
 
         public Level(string mapPath, string textureName, ContentManager content, GraphicsDevice graphicsdevice)
         {
@@ -24,6 +21,33 @@ namespace SoftProject.Levels
 
             debugTexture = new Texture2D(graphicsdevice, 1, 1);
             debugTexture.SetData(new[] { Color.White });
+
+            CollisionRectangles = new List<Rectangle>();
+
+            LoadCollisions();
+        }
+
+        private void LoadCollisions()
+        {
+            foreach (var layer in map.Layers)
+            {
+                if (layer.name != "Collision")
+                {
+                    continue;
+                }
+
+                foreach (var obj in layer.objects)
+                {
+                    Rectangle rectangle = new Rectangle(
+                        (int)obj.x,
+                        (int)obj.y,
+                        (int)obj.width,
+                        (int)obj.height
+                    );
+
+                    CollisionRectangles.Add(rectangle);
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -79,26 +103,13 @@ namespace SoftProject.Levels
 
         private void DrawCollisionDebug(SpriteBatch spriteBatch)
         {
-            foreach (var layer in map.Layers)
+            foreach (Rectangle rectangle in CollisionRectangles)
             {
-                if (layer.name != "Collision")
-                    continue;
-
-                foreach (var obj in layer.objects)
-                {
-                    Rectangle rectangle = new Rectangle(
-                        (int)obj.x,
-                        (int)obj.y,
-                        (int)obj.width,
-                        (int)obj.height
-                    );
-
-                    spriteBatch.Draw(
+                spriteBatch.Draw(
                         debugTexture,
                         rectangle,
                         Color.White * 0.4f
                     );
-                }
             }
         }
     }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SoftProject.Animation;
 using SoftProject.Input;
 using SoftProject.Interfaces;
+using SoftProject.Levels;
 using SoftProject.Physics;
 using SoftProject.PlayerState;
 using SoftProject.PlayerStates;
@@ -13,6 +14,8 @@ namespace SoftProject
 {
     public class Player : IGameObject
     {
+        private Texture2D debugTexture;
+
         private Vector2 positie;
         private Vector2 snelheid;
         private bool facingLeft = false;
@@ -23,12 +26,17 @@ namespace SoftProject
         public PhysicsComponent Physics { get; set; }
 
         public IInputReader InputReader { get; set; }
-        public Player(IInputReader reader)
+
+        public Level Level { get; set; }
+        public Player(IInputReader reader, GraphicsDevice graphicsDevice)
         {
-            Physics = new PhysicsComponent();
+            Physics = new PhysicsComponent(20, 64, 90, 30);
             positie = new Vector2(10, 10);
             snelheid = new Vector2(10, 1);
             this.InputReader = reader;
+
+            debugTexture = new Texture2D(graphicsDevice, 1, 1);
+            debugTexture.SetData(new[] { Color.Red });
         }
         public void LoadContent(ContentManager content)
         {
@@ -52,7 +60,7 @@ namespace SoftProject
         public void Update(GameTime gameTime)
         {
             Move();
-            Physics.ApplyPhysics(ref positie);
+            Physics.ApplyPhysics(ref positie, Level.CollisionRectangles);
 
             currentState.Update(this);
             CurrentAnimator?.Update();
@@ -77,6 +85,11 @@ namespace SoftProject
         public void Draw(SpriteBatch spriteBatch)
         {
             CurrentAnimator?.Draw(spriteBatch, positie, facingLeft);
+            spriteBatch.Draw(
+                debugTexture,
+                Physics.CollisionBox,
+                Color.Red * 0.5f
+            );
         }
     }
 }
