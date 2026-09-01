@@ -42,7 +42,7 @@ namespace SoftProject
             // TODO: use this.Content to load your game content here
 
             levelManager = new LevelManager(this.Content, GraphicsDevice);
-            levelManager.LoadLevel(1);
+            levelManager.LoadLevel(1, player);
             player.Level = levelManager.currentLevel;
 
             enemyFactory = new EnemyFactory(Content, GraphicsDevice);
@@ -65,6 +65,17 @@ namespace SoftProject
                 Exit();
 
             // TODO: Add your update logic here
+            if (Keyboard.GetState().IsKeyDown(Keys.T))
+            {
+                if (player.Physics.CollisionBox.Intersects(levelManager.currentLevel.PortalZone))
+                {
+                    levelManager.LoadLevel(levelManager.CurrentLevelIndex + 1, player);
+                    player.Level = levelManager.currentLevel;
+
+                    enemies.Clear();
+
+                }
+            }
 
             player.Update(gameTime);
             foreach (Enemy enemy in enemies)

@@ -12,6 +12,7 @@ namespace SoftProject.Levels
         private Texture2D tileSetTexture;
         private Texture2D debugTexture;
         public List<Rectangle> CollisionRectangles { get; private set; } 
+        public Rectangle PortalZone { get; set; }
 
         public Level(string mapPath, string textureName, ContentManager content, GraphicsDevice graphicsdevice)
         {
