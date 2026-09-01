@@ -15,7 +15,7 @@ namespace SoftProject
         Player player;
 
         private EnemyFactory enemyFactory;
-        private List<Enemy> enemies = new List<Enemy>();
+        private List<Enemy> enemies;
 
         private LevelManager levelManager;
         public Game1()
@@ -40,13 +40,12 @@ namespace SoftProject
             InitializeGameObject();
             // TODO: use this.Content to load your game content here
 
-            levelManager = new LevelManager(this.Content, GraphicsDevice);
+            enemyFactory = new EnemyFactory(Content, GraphicsDevice);
+            enemies = new List<Enemy>();
+
+            levelManager = new LevelManager(this.Content, GraphicsDevice, enemyFactory, enemies);
             levelManager.LoadLevel(1, player);
             player.Level = levelManager.currentLevel;
-
-            enemyFactory = new EnemyFactory(Content, GraphicsDevice);
-            enemies.Add(enemyFactory.CreateSkeleton(player, levelManager.currentLevel, new Vector2(200,50)));
-            enemies.Add(enemyFactory.CreateSkeletonWithShield(player, levelManager.currentLevel, new Vector2(80, 50)));
         }
 
 
@@ -70,25 +69,11 @@ namespace SoftProject
                 {
                     levelManager.LoadLevel(levelManager.CurrentLevelIndex + 1, player);
                     player.Level = levelManager.currentLevel;
-
-                    enemies.Clear();
-
-                    if (levelManager.CurrentLevelIndex == 2)
-                    {
-                        enemies.Add(enemyFactory.CreateSkeletonWithSpear(player, levelManager.currentLevel, new Vector2(304, 208)));
-                        enemies.Add(enemyFactory.CreateSkeleton(player, levelManager.currentLevel, new Vector2(200, 400)));
-                        enemies.Add(enemyFactory.CreateSkeletonArcher(player, levelManager.currentLevel, new Vector2(250, 400)));
-
-                    }
-
                 }
             }
 
             player.Update(gameTime);
-            foreach (Enemy enemy in enemies)
-            {
-                enemy.Update(gameTime);
-            }
+            levelManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -100,12 +85,9 @@ namespace SoftProject
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            levelManager.currentLevel?.Draw(_spriteBatch);
+            levelManager.Draw(_spriteBatch);
             player.Draw(_spriteBatch);
-            foreach (Enemy enemy in enemies)
-            {
-                enemy.Draw(_spriteBatch);
-            }
+            
 
             _spriteBatch.End();
 

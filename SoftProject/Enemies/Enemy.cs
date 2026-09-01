@@ -1,17 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SoftProject.Animation;
 using SoftProject.Enemies.EnemyStates;
-using SoftProject.Input;
 using SoftProject.Interfaces;
 using SoftProject.Levels;
 using SoftProject.Physics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoftProject.Enemies
 {
