@@ -8,6 +8,12 @@ using System.Collections.Generic;
 
 namespace SoftProject
 {
+    public enum GameState
+    {
+        StartScreen,
+        Playing,
+        GameOver
+    }
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -18,7 +24,11 @@ namespace SoftProject
         private List<Enemy> enemies;
 
         private LevelManager levelManager;
+
+        private GameState currentGameState = GameState.StartScreen;
+        private Texture2D startScreenTexture;
         private Texture2D gameOverTexture;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -42,6 +52,7 @@ namespace SoftProject
             // TODO: use this.Content to load your game content here
             heartTexture = Content.Load<Texture2D>("heart");
             gameOverTexture = Content.Load<Texture2D>("GameOverScreen");
+            startScreenTexture = Content.Load<Texture2D>("StartScreen");
 
             enemyFactory = new EnemyFactory(Content, GraphicsDevice);
             enemies = new List<Enemy>();
@@ -65,7 +76,24 @@ namespace SoftProject
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if (currentGameState == GameState.StartScreen)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                {
+                    levelManager.LoadLevel(1, player);
+                    player.Level = levelManager.currentLevel;
+                    currentGameState = GameState.Playing;
+                }
+                return;
+            }
+
             if (player.Health <= 0)
+            {
+                currentGameState = GameState.GameOver;
+                return;
+            }
+
+            if (currentGameState == GameState.GameOver)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.R))
                 {
@@ -103,18 +131,22 @@ namespace SoftProject
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            levelManager.Draw(_spriteBatch);
-            player.Draw(_spriteBatch);
-
-
-            for (int i = 0; i < player.Health; i++)
+            if (currentGameState == GameState.StartScreen)
             {
-                _spriteBatch.Draw(heartTexture, new Vector2(20 + (i * 40), 20), Color.White);
+                _spriteBatch.Draw(startScreenTexture, Vector2.Zero, Color.White);
             }
-
-            if (player.Health <= 0)
+            else if (currentGameState == GameState.GameOver)
             {
                 _spriteBatch.Draw(gameOverTexture, new Vector2(0, 0), Color.White);
+            }
+            else
+            {
+                levelManager.Draw(_spriteBatch);
+                player.Draw(_spriteBatch);
+                for (int i = 0; i < player.Health; i++)
+                {
+                    _spriteBatch.Draw(heartTexture, new Vector2(20 + (i * 40), 20), Color.White);
+                }
             }
             _spriteBatch.End();
 
