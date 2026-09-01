@@ -16,6 +16,7 @@ namespace SoftProject.Animation
         private int counter;
         private int timer;
         private int animationSpeed = 7;
+        public bool IsLooping { get; set; } = true;
 
         public Animations()
         {
@@ -47,7 +48,15 @@ namespace SoftProject.Animation
 
                 if (counter >= frames.Count)
                 {
-                    counter = 0;
+                    if (IsLooping)
+                    {
+                        counter = 0;
+
+                    }
+                    else
+                    {
+                        counter = frames.Count - 1;
+                    }
                     IsComplete = true;
                 }
                 timer = 0;

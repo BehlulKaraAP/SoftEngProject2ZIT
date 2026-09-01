@@ -55,7 +55,7 @@ namespace SoftProject.Levels
             for (int i = enemiesList.Count - 1; i >= 0; i--)
             {
                 enemiesList[i].Update(gameTime);
-                if (enemiesList[i].IsDead)
+                if (enemiesList[i].AnimationFinished)
                 {
                     enemiesList.RemoveAt(i);
                 }

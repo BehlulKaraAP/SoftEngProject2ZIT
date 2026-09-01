@@ -29,9 +29,13 @@ namespace SoftProject.Enemies
             skeleton.SpriteDrawOffset = 55;
             skeleton.AddAnimation("Patrol", new SpriteAnimator(content.Load<Texture2D>("Enemy1Patrol"), 128, 96));
             skeleton.AddAnimation("Attack", new SpriteAnimator(content.Load<Texture2D>("Enemy1Attack"), 128, 96));
+            SpriteAnimator deathAnim = new SpriteAnimator(content.Load<Texture2D>("Enemy1Death"), 128, 96);
+            deathAnim.Animation.IsLooping = false;
+            skeleton.AddAnimation("Death", deathAnim);
             skeleton.ChangeState(new PatrolState());
             skeleton.AttackBehavior = new MeleeAttack();
             skeleton.Health = 2;
+
             return skeleton;
         }
 
@@ -44,6 +48,9 @@ namespace SoftProject.Enemies
             skeletonShield.SpriteDrawOffset = 55;
             skeletonShield.AddAnimation("Patrol", new SpriteAnimator(content.Load<Texture2D>("Enemy2Patrol"), 128, 96));
             skeletonShield.AddAnimation("Attack", new SpriteAnimator(content.Load<Texture2D>("Enemy2Attack"), 128, 96));
+            SpriteAnimator deathAnim = new SpriteAnimator(content.Load<Texture2D>("Enemy2Death"), 128, 96);
+            deathAnim.Animation.IsLooping = false;
+            skeletonShield.AddAnimation("Death", deathAnim);
             skeletonShield.ChangeState(new PatrolState());
             skeletonShield.AttackBehavior = new MeleeAttack();
             skeletonShield.Health = 3;
@@ -59,6 +66,9 @@ namespace SoftProject.Enemies
             skeletonSpear.SpriteDrawOffset = 55;
             skeletonSpear.AddAnimation("Patrol", new SpriteAnimator(content.Load<Texture2D>("Enemy3Patrol"), 128, 96));
             skeletonSpear.AddAnimation("Attack", new SpriteAnimator(content.Load<Texture2D>("Enemy3Attack"), 128, 96));
+            SpriteAnimator deathAnim = new SpriteAnimator(content.Load<Texture2D>("Enemy3Death"), 128, 96);
+            deathAnim.Animation.IsLooping = false;
+            skeletonSpear.AddAnimation("Death", deathAnim);
             skeletonSpear.ChangeState(new PatrolState());
             skeletonSpear.AttackBehavior = new MeleeAttack();
             skeletonSpear.Health = 2;
@@ -73,6 +83,9 @@ namespace SoftProject.Enemies
             SkeletonArcher.SpriteDrawOffset = 35;
             SkeletonArcher.AddAnimation("Patrol", new SpriteAnimator(content.Load<Texture2D>("EnemyPatrol4"), 128, 96));
             SkeletonArcher.AddAnimation("Attack", new SpriteAnimator(content.Load<Texture2D>("Enemy4Attack"), 128, 96));
+            SpriteAnimator deathAnim = new SpriteAnimator(content.Load<Texture2D>("Enemy4Death"), 128, 96);
+            deathAnim.Animation.IsLooping = false;
+            SkeletonArcher.AddAnimation("Death", deathAnim);
             SkeletonArcher.ChangeState(new PatrolState());
             SkeletonArcher.AttackBehavior = new RangedAttack();
             SkeletonArcher.Health = 1;

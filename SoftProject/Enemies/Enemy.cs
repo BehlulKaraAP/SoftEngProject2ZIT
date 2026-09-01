@@ -25,6 +25,7 @@ namespace SoftProject.Enemies
 
         public int Health { get; set; }
         public bool IsDead => Health <= 0;
+        public bool AnimationFinished { get; set; } = false;
         public Level Level { get; set; }
 
         public Enemy(Player player, Level level, GraphicsDevice graphicsDevice)
@@ -52,6 +53,11 @@ namespace SoftProject.Enemies
         public void Update(GameTime gameTime)
         {
             Physics.ApplyPhysics(ref Position, Level.CollisionRectangles);
+
+            if (IsDead && !(currentState is DeathState))
+            {
+                ChangeState(new DeathState());
+            }
 
             currentState.Update(this, gameTime);
             CurrentAnimator?.Update();
