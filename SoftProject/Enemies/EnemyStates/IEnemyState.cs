@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace SoftProject.Enemies.EnemyStates
     public interface IEnemyState 
     {
         void Enter(Enemy enemy);
-        void Update(Enemy enemy);
+        void Update(Enemy enemy, GameTime gameTime);
 
     }
 }

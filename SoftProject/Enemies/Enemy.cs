@@ -50,7 +50,7 @@ namespace SoftProject.Enemies
         {
             Physics.ApplyPhysics(ref Position, Level.CollisionRectangles);
 
-            currentState.Update(this);
+            currentState.Update(this, gameTime);
             CurrentAnimator?.Update();
         }
 

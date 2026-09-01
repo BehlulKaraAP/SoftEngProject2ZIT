@@ -11,7 +11,7 @@ namespace SoftProject.Enemies.EnemyStates
             enemy.PlayAnimation("Patrol");
         }
 
-        public void Update(Enemy enemy)
+        public void Update(Enemy enemy, GameTime gameTime)
         {
             float distanceToPlayer = Vector2.Distance(enemy.Position, enemy.TargetPlayer.position);
             if (distanceToPlayer < 150)

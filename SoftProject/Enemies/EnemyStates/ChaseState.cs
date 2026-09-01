@@ -10,14 +10,21 @@ namespace SoftProject.Enemies.EnemyStates
     public class ChaseState : IEnemyState
     {
         private float chaseSpeed = 1.5f;
+        private float attackTriggerDistance = 65f;
         public void Enter(Enemy enemy)
         {
             enemy.PlayAnimation("Patrol");
         }
 
-        public void Update(Enemy enemy)
+        public void Update(Enemy enemy, GameTime gameTime)
         {
             float distanceToPlayer = Vector2.Distance(enemy.Position, enemy.TargetPlayer.position);
+
+            if (distanceToPlayer <= attackTriggerDistance)
+            {
+                enemy.ChangeState(new AttackState());
+                return;
+            }
 
             if (distanceToPlayer > 200)
             {
