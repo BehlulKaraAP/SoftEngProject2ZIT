@@ -2,32 +2,36 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SoftProject.Enemies;
+using SoftProject.GameState;
 using SoftProject.Input;
 using SoftProject.Levels;
 using System.Collections.Generic;
 
 namespace SoftProject
 {
-    public enum GameState
-    {
-        StartScreen,
-        Playing,
-        GameOver
-    }
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        Player player;
-        private Texture2D heartTexture;
+        public Player player;
+        public Texture2D heartTexture;
         private EnemyFactory enemyFactory;
         private List<Enemy> enemies;
 
-        private LevelManager levelManager;
+        public LevelManager levelManager;
 
-        private GameState currentGameState = GameState.StartScreen;
-        private Texture2D startScreenTexture;
-        private Texture2D gameOverTexture;
+        public Texture2D startScreenTexture;
+        public Texture2D gameOverTexture;
+        public Texture2D victoryTexture;
+
+        private IGameState currentGameState;
+
+        public void ChangeState(IGameState newState)
+        {
+            currentGameState = newState;
+        }
+
+
 
         public Game1()
         {
@@ -53,6 +57,7 @@ namespace SoftProject
             heartTexture = Content.Load<Texture2D>("heart");
             gameOverTexture = Content.Load<Texture2D>("GameOverScreen");
             startScreenTexture = Content.Load<Texture2D>("StartScreen");
+            victoryTexture = Content.Load<Texture2D>("VictoryScreen");
 
             enemyFactory = new EnemyFactory(Content, GraphicsDevice);
             enemies = new List<Enemy>();
@@ -60,6 +65,8 @@ namespace SoftProject
             levelManager = new LevelManager(this.Content, GraphicsDevice, enemyFactory, enemies);
             levelManager.LoadLevel(1, player);
             player.Level = levelManager.currentLevel;
+
+            ChangeState(new StartScreenState());
         }
 
 
@@ -76,50 +83,7 @@ namespace SoftProject
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (currentGameState == GameState.StartScreen)
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                {
-                    levelManager.LoadLevel(1, player);
-                    player.Level = levelManager.currentLevel;
-                    currentGameState = GameState.Playing;
-                }
-                return;
-            }
-
-            if (player.Health <= 0)
-            {
-                currentGameState = GameState.GameOver;
-                return;
-            }
-
-            if (currentGameState == GameState.GameOver)
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.R))
-                {
-                    // Reset player health
-                    player.Health = player.MaxHealth;
-
-                    // Reload Level 1 and reset enemies via the LevelManager
-                    levelManager.LoadLevel(1, player);
-                    player.Level = levelManager.currentLevel;
-                }
-
-                return; // FREEZES THE GAME: Skips updating player, enemies, and portals!
-            }
-
-            // TODO: Add your update logic here
-            if (Keyboard.GetState().IsKeyDown(Keys.T))
-            {
-                if (player.Physics.CollisionBox.Intersects(levelManager.currentLevel.PortalZone))
-                {
-                    levelManager.LoadLevel(levelManager.CurrentLevelIndex + 1, player);
-                    player.Level = levelManager.currentLevel;
-                }
-            }
-
-            player.Update(gameTime);
-            levelManager.Update(gameTime);
+            currentGameState.Update(gameTime, this);
 
             base.Update(gameTime);
         }
@@ -131,23 +95,7 @@ namespace SoftProject
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            if (currentGameState == GameState.StartScreen)
-            {
-                _spriteBatch.Draw(startScreenTexture, Vector2.Zero, Color.White);
-            }
-            else if (currentGameState == GameState.GameOver)
-            {
-                _spriteBatch.Draw(gameOverTexture, new Vector2(0, 0), Color.White);
-            }
-            else
-            {
-                levelManager.Draw(_spriteBatch);
-                player.Draw(_spriteBatch);
-                for (int i = 0; i < player.Health; i++)
-                {
-                    _spriteBatch.Draw(heartTexture, new Vector2(20 + (i * 40), 20), Color.White);
-                }
-            }
+            currentGameState.Draw(_spriteBatch, this);
             _spriteBatch.End();
 
             
