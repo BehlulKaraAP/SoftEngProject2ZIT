@@ -44,5 +44,16 @@ namespace SoftProject.Enemies
 
         }
 
+        public Enemy CreateSkeletonWithSpear(Player target, Level level, Vector2 startPosition)
+        {
+            Enemy skeletonSpear = new Enemy(target, level, graphics);
+            skeletonSpear.Position = startPosition;
+            skeletonSpear.Physics = new PhysicsComponent(20, 100, 60, 45);
+            skeletonSpear.SpriteDrawOffset = 55;
+            skeletonSpear.AddAnimation("Patrol", new SpriteAnimator(content.Load<Texture2D>("Enemy3Patrol"), 128, 96));
+            skeletonSpear.ChangeState(new PatrolState());
+            return skeletonSpear;
+        }
+
     }
 }

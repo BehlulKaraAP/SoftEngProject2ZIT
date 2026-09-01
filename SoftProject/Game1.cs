@@ -13,7 +13,6 @@ namespace SoftProject
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Player player;
-        private Enemy testEnemy;
 
         private EnemyFactory enemyFactory;
         private List<Enemy> enemies = new List<Enemy>();
@@ -73,6 +72,13 @@ namespace SoftProject
                     player.Level = levelManager.currentLevel;
 
                     enemies.Clear();
+
+                    if (levelManager.CurrentLevelIndex == 2)
+                    {
+                        enemies.Add(enemyFactory.CreateSkeletonWithSpear(player, levelManager.currentLevel, new Vector2(304, 208)));
+                        enemies.Add(enemyFactory.CreateSkeleton(player, levelManager.currentLevel, new Vector2(200, 400)));
+
+                    }
 
                 }
             }
