@@ -31,5 +31,18 @@ namespace SoftProject.Enemies
             return skeleton;
         }
 
+        public Enemy CreateSkeletonWithShield(Player target, Level level, Vector2 startPosition)
+        {
+            Enemy skeletonShield = new Enemy(target, level, graphics);
+            skeletonShield.Position = startPosition;
+
+            skeletonShield.Physics = new PhysicsComponent(20, 100, 60, 45);
+            skeletonShield.SpriteDrawOffset = 55;
+            skeletonShield.AddAnimation("Patrol", new SpriteAnimator(content.Load<Texture2D>("Enemy2Patrol"), 128, 96));
+            skeletonShield.ChangeState(new PatrolState());
+            return skeletonShield;
+
+        }
+
     }
 }
