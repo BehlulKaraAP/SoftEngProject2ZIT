@@ -47,7 +47,7 @@ namespace SoftProject
 
             enemyFactory = new EnemyFactory(Content, GraphicsDevice);
             enemies.Add(enemyFactory.CreateSkeleton(player, levelManager.currentLevel, new Vector2(200,50)));
-            enemies.Add(enemyFactory.CreateSkeletonWithShield(player, levelManager.currentLevel, new Vector2(70, 50)));
+            enemies.Add(enemyFactory.CreateSkeletonWithShield(player, levelManager.currentLevel, new Vector2(80, 50)));
         }
 
 
