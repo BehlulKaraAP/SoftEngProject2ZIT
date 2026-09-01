@@ -1,11 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SoftProject.Enemies;
 using SoftProject.Input;
 using SoftProject.Levels;
-using System;
 using System.Collections.Generic;
-using TiledCS;
 
 namespace SoftProject
 {
@@ -14,6 +13,10 @@ namespace SoftProject
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Player player;
+        private Enemy testEnemy;
+
+        private EnemyFactory enemyFactory;
+        private List<Enemy> enemies = new List<Enemy>();
 
         private LevelManager levelManager;
         public Game1()
@@ -42,7 +45,8 @@ namespace SoftProject
             levelManager.LoadLevel(1);
             player.Level = levelManager.currentLevel;
 
-
+            enemyFactory = new EnemyFactory(Content, GraphicsDevice);
+            enemies.Add(enemyFactory.CreateSkeleton(player, levelManager.currentLevel, new Vector2(200,50)));
         }
 
 
@@ -62,6 +66,10 @@ namespace SoftProject
             // TODO: Add your update logic here
 
             player.Update(gameTime);
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Update(gameTime);
+            }
 
             base.Update(gameTime);
         }
@@ -75,6 +83,10 @@ namespace SoftProject
 
             levelManager.currentLevel?.Draw(_spriteBatch);
             player.Draw(_spriteBatch);
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Draw(_spriteBatch);
+            }
 
             _spriteBatch.End();
 

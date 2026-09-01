@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace SoftProject.Enemies.EnemyStates
 {
-    internal class ChaseState
+    public class ChaseState : IEnemyState
     {
+        public void Enter(Enemy enemy)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Enemy enemy)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

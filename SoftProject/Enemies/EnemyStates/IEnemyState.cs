@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SoftProject.Enemies.EnemyStates
 {
-    internal interface IEnemyState
+    public interface IEnemyState 
     {
+        void Enter(Enemy enemy);
+        void Update(Enemy enemy);
+
     }
 }
