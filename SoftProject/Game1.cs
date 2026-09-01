@@ -77,6 +77,7 @@ namespace SoftProject
                     {
                         enemies.Add(enemyFactory.CreateSkeletonWithSpear(player, levelManager.currentLevel, new Vector2(304, 208)));
                         enemies.Add(enemyFactory.CreateSkeleton(player, levelManager.currentLevel, new Vector2(200, 400)));
+                        enemies.Add(enemyFactory.CreateSkeletonArcher(player, levelManager.currentLevel, new Vector2(250, 400)));
 
                     }
 

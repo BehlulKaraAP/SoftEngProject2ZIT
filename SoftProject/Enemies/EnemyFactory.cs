@@ -55,5 +55,16 @@ namespace SoftProject.Enemies
             return skeletonSpear;
         }
 
+        public Enemy CreateSkeletonArcher(Player target, Level level, Vector2 startPosition)
+        {
+            Enemy SkeletonArcher = new Enemy(target, level, graphics);
+            SkeletonArcher.Position = startPosition;
+            SkeletonArcher.Physics = new PhysicsComponent(35, 100, 60, 45);
+            SkeletonArcher.SpriteDrawOffset = 35;
+            SkeletonArcher.AddAnimation("Patrol", new SpriteAnimator(content.Load<Texture2D>("EnemyPatrol4"), 128, 96));
+            SkeletonArcher.ChangeState(new PatrolState());
+            return SkeletonArcher;
+        }
+
     }
 }
