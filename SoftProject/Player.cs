@@ -16,7 +16,7 @@ namespace SoftProject
     {
         private Texture2D debugTexture;
 
-        private Vector2 positie;
+        public Vector2 position;
         private Vector2 snelheid;
         private bool facingLeft = false;
         IPlayerState currentState;
@@ -31,7 +31,7 @@ namespace SoftProject
         public Player(IInputReader reader, GraphicsDevice graphicsDevice)
         {
             Physics = new PhysicsComponent(20, 64, 90, 30);
-            positie = new Vector2(10, 10);
+            position = new Vector2(10, 10);
             snelheid = new Vector2(10, 1);
             this.InputReader = reader;
 
@@ -60,7 +60,7 @@ namespace SoftProject
         public void Update(GameTime gameTime)
         {
             Move();
-            Physics.ApplyPhysics(ref positie, Level.CollisionRectangles);
+            Physics.ApplyPhysics(ref position, Level.CollisionRectangles);
 
             currentState.Update(this);
             CurrentAnimator?.Update();
@@ -84,7 +84,7 @@ namespace SoftProject
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            CurrentAnimator?.Draw(spriteBatch, positie, facingLeft);
+            CurrentAnimator?.Draw(spriteBatch, position, facingLeft);
             spriteBatch.Draw(
                 debugTexture,
                 Physics.CollisionBox,
