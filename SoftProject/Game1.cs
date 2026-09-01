@@ -13,7 +13,7 @@ namespace SoftProject
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Player player;
-
+        private Texture2D heartTexture;
         private EnemyFactory enemyFactory;
         private List<Enemy> enemies;
 
@@ -39,6 +39,7 @@ namespace SoftProject
 
             InitializeGameObject();
             // TODO: use this.Content to load your game content here
+            heartTexture = Content.Load<Texture2D>("heart");
 
             enemyFactory = new EnemyFactory(Content, GraphicsDevice);
             enemies = new List<Enemy>();
@@ -87,8 +88,12 @@ namespace SoftProject
 
             levelManager.Draw(_spriteBatch);
             player.Draw(_spriteBatch);
-            
 
+
+            for (int i = 0; i < player.Health; i++)
+            {
+                _spriteBatch.Draw(heartTexture, new Vector2(20 + (i * 40), 20), Color.White);
+            }
             _spriteBatch.End();
 
             

@@ -14,6 +14,8 @@ namespace SoftProject
 {
     public class Player : IGameObject
     {
+        public int MaxHealth { get; set; } = 5;
+        public int Health { get; set; } = 5;
         private Texture2D debugTexture;
 
         public Vector2 position;

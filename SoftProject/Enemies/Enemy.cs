@@ -16,7 +16,7 @@ namespace SoftProject.Enemies
         public PhysicsComponent Physics { get; set; }
         public Player TargetPlayer { get; private set; }
         public bool FacingLeft = false;
-
+        public IAttackBehaviour AttackBehavior { get; set; }
         public int SpriteDrawOffset { get; set; } = 0;
 
         private Dictionary<string, SpriteAnimator> animators = new Dictionary<string, SpriteAnimator>();

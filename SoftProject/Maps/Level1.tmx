@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="62">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="62">
  <tileset firstgid="1" source="../TileSets/SoftProjLevelTileSet.tsx"/>
+ <imagelayer id="5" name="Background3" repeatx="1">
+  <image source="../../../../../SoftEngAssets/PixelPlatformerSet2v.1.1/Background/background1.png" width="426" height="384"/>
+ </imagelayer>
+ <imagelayer id="4" name="background2" offsetx="0" offsety="36" repeatx="1">
+  <image source="../../../../../SoftEngAssets/PixelPlatformerSet2v.1.1/Background/background2.png" width="426" height="384"/>
+ </imagelayer>
+ <imagelayer id="3" name="Background1" offsetx="0" offsety="100" repeatx="1">
+  <image source="../../../../../SoftEngAssets/PixelPlatformerSet2v.1.1/Background/background6.png" width="426" height="384"/>
+ </imagelayer>
  <layer id="1" name="Ground" width="50" height="30">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

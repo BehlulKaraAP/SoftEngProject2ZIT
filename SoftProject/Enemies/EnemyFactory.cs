@@ -6,6 +6,7 @@ using SoftProject.Animation;
 using SoftProject.Physics;
 using SoftProject.Enemies.EnemyStates;
 using Microsoft.Xna.Framework;
+using SoftProject.Enemies.Attacks;
 namespace SoftProject.Enemies
 {
     public class EnemyFactory
@@ -28,6 +29,7 @@ namespace SoftProject.Enemies
             skeleton.SpriteDrawOffset = 55;
             skeleton.AddAnimation("Patrol", new SpriteAnimator(content.Load<Texture2D>("Enemy1Patrol"), 128, 96));
             skeleton.ChangeState(new PatrolState());
+            skeleton.AttackBehavior = new MeleeAttack();
             return skeleton;
         }
 
@@ -40,6 +42,7 @@ namespace SoftProject.Enemies
             skeletonShield.SpriteDrawOffset = 55;
             skeletonShield.AddAnimation("Patrol", new SpriteAnimator(content.Load<Texture2D>("Enemy2Patrol"), 128, 96));
             skeletonShield.ChangeState(new PatrolState());
+            skeletonShield.AttackBehavior = new MeleeAttack();
             return skeletonShield;
 
         }
@@ -52,6 +55,7 @@ namespace SoftProject.Enemies
             skeletonSpear.SpriteDrawOffset = 55;
             skeletonSpear.AddAnimation("Patrol", new SpriteAnimator(content.Load<Texture2D>("Enemy3Patrol"), 128, 96));
             skeletonSpear.ChangeState(new PatrolState());
+            skeletonSpear.AttackBehavior = new MeleeAttack();
             return skeletonSpear;
         }
 
@@ -63,6 +67,7 @@ namespace SoftProject.Enemies
             SkeletonArcher.SpriteDrawOffset = 35;
             SkeletonArcher.AddAnimation("Patrol", new SpriteAnimator(content.Load<Texture2D>("EnemyPatrol4"), 128, 96));
             SkeletonArcher.ChangeState(new PatrolState());
+            SkeletonArcher.AttackBehavior = new RangedAttack();
             return SkeletonArcher;
         }
 
