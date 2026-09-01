@@ -31,6 +31,7 @@ namespace SoftProject.Enemies
             skeleton.AddAnimation("Attack", new SpriteAnimator(content.Load<Texture2D>("Enemy1Attack"), 128, 96));
             skeleton.ChangeState(new PatrolState());
             skeleton.AttackBehavior = new MeleeAttack();
+            skeleton.Health = 2;
             return skeleton;
         }
 
@@ -45,6 +46,7 @@ namespace SoftProject.Enemies
             skeletonShield.AddAnimation("Attack", new SpriteAnimator(content.Load<Texture2D>("Enemy2Attack"), 128, 96));
             skeletonShield.ChangeState(new PatrolState());
             skeletonShield.AttackBehavior = new MeleeAttack();
+            skeletonShield.Health = 3;
             return skeletonShield;
 
         }
@@ -59,6 +61,7 @@ namespace SoftProject.Enemies
             skeletonSpear.AddAnimation("Attack", new SpriteAnimator(content.Load<Texture2D>("Enemy3Attack"), 128, 96));
             skeletonSpear.ChangeState(new PatrolState());
             skeletonSpear.AttackBehavior = new MeleeAttack();
+            skeletonSpear.Health = 2;
             return skeletonSpear;
         }
 
@@ -72,6 +75,7 @@ namespace SoftProject.Enemies
             SkeletonArcher.AddAnimation("Attack", new SpriteAnimator(content.Load<Texture2D>("Enemy4Attack"), 128, 96));
             SkeletonArcher.ChangeState(new PatrolState());
             SkeletonArcher.AttackBehavior = new RangedAttack();
+            SkeletonArcher.Health = 1;
             return SkeletonArcher;
         }
 

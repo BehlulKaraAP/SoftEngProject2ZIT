@@ -30,6 +30,12 @@ namespace SoftProject.GameState
                 return;
             }
 
+            if (game.levelManager.CurrentLevelIndex == 2 && game.levelManager.ActiveEnemies.Count == 0)
+            {
+                game.ChangeState(new VictoryState());
+                return;
+            }
+
             if (Keyboard.GetState().IsKeyDown(Keys.T))
             {
                 if (game.player.Physics.CollisionBox.Intersects(game.levelManager.currentLevel.PortalZone))
@@ -37,6 +43,11 @@ namespace SoftProject.GameState
                     game.levelManager.LoadLevel(game.levelManager.CurrentLevelIndex + 1, game.player);
                     game.player.Level = game.levelManager.currentLevel;
                 }
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
+            {
+                game.player.Attack(game.levelManager.ActiveEnemies);
             }
 
             game.player.Update(gameTime);

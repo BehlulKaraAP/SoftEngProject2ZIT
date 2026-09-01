@@ -15,6 +15,7 @@ namespace SoftProject.Levels
         private GraphicsDevice graphics;
         private EnemyFactory enemyFactory;
         private List<Enemy> enemiesList;
+        public List<Enemy> ActiveEnemies => enemiesList;
 
         public LevelManager(ContentManager content, GraphicsDevice graphics, EnemyFactory factory, List<Enemy> enemies)
         {
@@ -51,9 +52,13 @@ namespace SoftProject.Levels
 
         public void Update(GameTime gameTime)
         {
-            foreach (Enemy enemy in enemiesList)
+            for (int i = enemiesList.Count - 1; i >= 0; i--)
             {
-                enemy.Update(gameTime);
+                enemiesList[i].Update(gameTime);
+                if (enemiesList[i].IsDead)
+                {
+                    enemiesList.RemoveAt(i);
+                }
             }
         }
         public void Draw(SpriteBatch spriteBatch)

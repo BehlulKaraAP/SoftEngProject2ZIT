@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SoftProject.Animation;
+using SoftProject.Enemies;
 using SoftProject.Input;
 using SoftProject.Interfaces;
 using SoftProject.Levels;
@@ -16,11 +17,14 @@ namespace SoftProject
     {
         public int MaxHealth { get; set; } = 5;
         public int Health { get; set; } = 5;
+        public IPlayerAttackBehavior AttackBehavior { get; set; }
+        private float attackTimer = 0f;
+        private float attackCooldown = 0.5f;
         private Texture2D debugTexture;
 
         public Vector2 position;
         private Vector2 snelheid;
-        private bool facingLeft = false;
+        public bool facingLeft = false;
         IPlayerState currentState;
         public SpriteAnimator CurrentAnimator { get; private set; }
         private Dictionary<string, SpriteAnimator> _animators = new Dictionary<string, SpriteAnimator>();
@@ -35,6 +39,7 @@ namespace SoftProject
             Physics = new PhysicsComponent(20, 64, 90, 30);
             position = new Vector2(10, 10);
             snelheid = new Vector2(10, 1);
+            AttackBehavior = new PlayerMeleeAttack();
             this.InputReader = reader;
 
             debugTexture = new Texture2D(graphicsDevice, 1, 1);
@@ -44,7 +49,7 @@ namespace SoftProject
         {
             _animators.Add("Idle", new SpriteAnimator(content.Load<Texture2D>("Idle"), 128, 64));
             _animators.Add("Run", new SpriteAnimator(content.Load<Texture2D>("Run"), 128, 64));
-            _animators.Add("Attack", new SpriteAnimator(content.Load<Texture2D>("Attacks"), 128, 64));
+            _animators.Add("Attack", new SpriteAnimator(content.Load<Texture2D>("AttackPlayer"), 128, 64));
             _animators.Add("Jump", new SpriteAnimator(content.Load<Texture2D>("Jump"), 128, 64));
 
             ChangeState(new IdleState());
@@ -58,7 +63,15 @@ namespace SoftProject
             currentState = newState;
             currentState.Enter(this);
         }
+        public void Attack(List<Enemy> activeEnemies)
+        {
+            if (attackTimer >= attackCooldown)
+            {
+                attackTimer = 0f;
 
+                AttackBehavior.ExecuteAttack(this, activeEnemies);
+            }
+        }
         public void Update(GameTime gameTime)
         {
             Move();
@@ -66,6 +79,7 @@ namespace SoftProject
 
             currentState.Update(this);
             CurrentAnimator?.Update();
+            attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         private void Move()

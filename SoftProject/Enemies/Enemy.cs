@@ -22,6 +22,9 @@ namespace SoftProject.Enemies
         private Dictionary<string, SpriteAnimator> animators = new Dictionary<string, SpriteAnimator>();
         public SpriteAnimator CurrentAnimator { get; private set; }
         private IEnemyState currentState;
+
+        public int Health { get; set; }
+        public bool IsDead => Health <= 0;
         public Level Level { get; set; }
 
         public Enemy(Player player, Level level, GraphicsDevice graphicsDevice)
