@@ -56,7 +56,6 @@ namespace SoftProject.Levels
             DrawMap(spriteBatch);
             DrawCollisionDebug(spriteBatch);
         }
-
         private void DrawMap(SpriteBatch spriteBatch)
         {
             int tileWidth = 16;
@@ -104,14 +103,14 @@ namespace SoftProject.Levels
 
         private void DrawCollisionDebug(SpriteBatch spriteBatch)
         {
-            foreach (Rectangle rectangle in CollisionRectangles)
-            {
-                spriteBatch.Draw(
-                        debugTexture,
-                        rectangle,
-                        Color.White * 0.4f
-                    );
-            }
+            //foreach (Rectangle rectangle in CollisionRectangles)
+            //{
+            //    spriteBatch.Draw(
+            //            debugTexture,
+            //            rectangle,
+            //            Color.White * 0.4f
+            //        );
+            //}
         }
     }
 }

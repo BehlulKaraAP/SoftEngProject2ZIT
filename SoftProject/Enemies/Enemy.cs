@@ -72,11 +72,11 @@ namespace SoftProject.Enemies
                 drawPosition.X -= SpriteDrawOffset;
             }
             CurrentAnimator?.Draw(spriteBatch, drawPosition, FacingLeft);
-            spriteBatch.Draw(
-                debugTexture,
-                Physics.CollisionBox,
-                Color.Red * 0.5f
-            );
+            //spriteBatch.Draw(
+            //    debugTexture,
+            //    Physics.CollisionBox,
+            //    Color.Red * 0.5f
+            //);
         }
     }
 }

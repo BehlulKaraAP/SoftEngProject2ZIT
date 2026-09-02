@@ -9,9 +9,11 @@ namespace SoftProject.Enemies.Attacks
 {
     public class RangedAttack : IAttackBehaviour
     {
+        private int attackRange = 200;
+
         public void ExecuteAttack(Enemy attacker, Player target)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

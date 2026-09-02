@@ -101,11 +101,11 @@ namespace SoftProject
         public void Draw(SpriteBatch spriteBatch)
         {
             CurrentAnimator?.Draw(spriteBatch, position, facingLeft);
-            spriteBatch.Draw(
-                debugTexture,
-                Physics.CollisionBox,
-                Color.Red * 0.5f
-            );
+            //spriteBatch.Draw(
+            //    debugTexture,
+            //    Physics.CollisionBox,
+            //    Color.Red * 0.5f
+            //);
         }
     }
 }

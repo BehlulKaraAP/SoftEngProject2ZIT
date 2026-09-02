@@ -20,21 +20,42 @@ namespace SoftProject.Enemies.EnemyStates
                 return;
             }
 
-            if (enemy.Physics.Velocity.X == 0)
+            if (enemy.Physics.Velocity.X == 0 || IsAtEdge(enemy))
             {
-                movingRight = !movingRight;
+                enemy.FacingLeft = !enemy.FacingLeft; 
             }
 
-            if (movingRight)
+            if (enemy.FacingLeft)
             {
-                enemy.Physics.Velocity.X = speed;
-                enemy.FacingLeft = false;
+                enemy.Physics.Velocity.X = -speed;
             }
             else
             {
-                enemy.Physics.Velocity.X = -speed;
-                enemy.FacingLeft = true;
+                enemy.Physics.Velocity.X = speed;
             }
+        }
+
+        private bool IsAtEdge(Enemy enemy)
+        {
+            Rectangle box = enemy.Physics.CollisionBox;
+
+            int sensorWidth = 5;
+            int sensorHeight = 5;
+
+            int lookAheadX = enemy.FacingLeft ? (box.Left - sensorWidth) : box.Right;
+            int lookAheadY = box.Bottom + 2;
+
+            Rectangle edgeSensor = new Rectangle(lookAheadX, lookAheadY, sensorWidth, sensorHeight);
+
+            foreach (Rectangle rect in enemy.Level.CollisionRectangles)
+            {
+                if (edgeSensor.Intersects(rect))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

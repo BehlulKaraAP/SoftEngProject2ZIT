@@ -33,11 +33,11 @@ namespace SoftProject.Levels
             if (levelNumber == 1)
             {
                 currentLevel = new Level("Maps/Level1.tmx", "main_lev_buildA", content, graphics);
-                player.position = new Vector2(32, 272);
+                player.position = new Vector2(32, 400);
                 currentLevel.PortalZone = new Rectangle(784, 304, 16, 64);
 
                 enemiesList.Add(enemyFactory.CreateSkeleton(player, currentLevel, new Vector2(200, 50)));
-                enemiesList.Add(enemyFactory.CreateSkeletonWithShield(player, currentLevel, new Vector2(80, 50)));
+                enemiesList.Add(enemyFactory.CreateSkeletonWithShield(player, currentLevel, new Vector2(16, 208)));
             }
             else if (levelNumber == 2)
             {
@@ -46,7 +46,7 @@ namespace SoftProject.Levels
 
                 enemiesList.Add(enemyFactory.CreateSkeletonWithSpear(player, currentLevel, new Vector2(304, 208)));
                 enemiesList.Add(enemyFactory.CreateSkeleton(player, currentLevel, new Vector2(200, 400)));
-                enemiesList.Add(enemyFactory.CreateSkeletonArcher(player, currentLevel, new Vector2(250, 400)));
+                enemiesList.Add(enemyFactory.CreateSkeletonArcher(player, currentLevel, new Vector2(400, 400)));
             }
         }
 
